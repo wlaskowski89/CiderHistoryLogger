@@ -2,7 +2,7 @@ const appendFileSync = require('fs').appendFileSync;
 const existsSync = require('fs').existsSync;
 const mkdirSync = require('fs').mkdirSync;
 
-module.exports = class nowPlayingPlugin {
+module.exports = class ciderHistoryLogger {
     constructor(env) {
         this.env = env
     }
@@ -17,24 +17,24 @@ module.exports = class nowPlayingPlugin {
     }
 
     onPlaybackStateDidChange(attributes) {
-        if (!existsSync(`${this.env.dir}/dist`)) {
-            mkdirSync(`${this.env.dir}/dist`);
+        if (!existsSync(`${this.env.dir}/logs`)) {
+            mkdirSync(`${this.env.dir}/logs`);
         }
 
 		var currentDate = new Date().toISOString();
 		var message =  '[' + currentDate + '] ' + attributes.artistName + ' - ' + attributes.name + '\n';
 		
-		appendFileSync(`${this.env.dir}/dist/history.txt`, message)	
+		appendFileSync(`${this.env.dir}/logs/history.txt`, message)	
     }
 	
     onNowPlayingItemDidChange(attributes) {
-        if (!existsSync(`${this.env.dir}/dist`)) {
-            mkdirSync(`${this.env.dir}/dist`);
+        if (!existsSync(`${this.env.dir}/logs`)) {
+            mkdirSync(`${this.env.dir}/logs`);
         }
 		var currentDate = new Date().toISOString();
 		var message =  '[' + currentDate + '] ' + attributes.artistName + ' - ' + attributes.name + '\n';
 		
-		appendFileSync(`${this.env.dir}/dist/history.txt`, message)	
+		appendFileSync(`${this.env.dir}/logs/history.txt`, message)	
     }
 	
     onBeforeQuit() {
